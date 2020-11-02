@@ -1,0 +1,11 @@
+type User {
+    favouriteFoods: [String!]
+    age: Int!
+    firstName: String!
+    familyName: String
+    fullName: String!
+}
+
+type Query {
+    user: User!
+}
