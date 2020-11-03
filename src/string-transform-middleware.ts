@@ -29,24 +29,26 @@ const NAS = new NotAString;
 
 type TextTransform = 'UPPERCASE' | 'lowercase' | 'TitleCase';
 
-function maybeBuildTransform(fieldConfig: ObjectTypeComposerFieldConfig<any, any>, schemaComposer: SchemaComposer<any>, outputType: ComposeOutputType<any> | NamedTypeComposer<any>): ((value: any, transfrom?: TextTransform) => string) {
+function baseTransform(value: any, transform?: TextTransform) {
+    if (!transform || typeof value !== 'string') {
+        return value;
+    }
+    switch (transform) {
+        case 'UPPERCASE':
+            return value.toUpperCase();
+        case 'lowercase':
+            return value.toLowerCase();
+        case 'TitleCase':
+            return toTitleCase(value);
+        default:
+            throw new UserInputError(`Value out of range`);
+    }
+};
+
+function maybeBuildTransform(fieldConfig: ObjectTypeComposerFieldConfig<any, any>, schemaComposer: SchemaComposer<any>, outputType: ComposeOutputType<any> | NamedTypeComposer<any>): ((value: any, transform?: TextTransform) => string) {
     if (outputType.getTypeName() === 'String') {
         // Field terminates in a String. Can happily return with the base transformation
-        return (value, transform) => {
-            if (!transform || typeof value !== 'string') {
-                return value;
-            }
-            switch (transform) {
-                case 'UPPERCASE':
-                    return value.toUpperCase();
-                case 'lowercase':
-                    return value.toLowerCase();
-                case 'TitleCase':
-                    return toTitleCase(value);
-                default:
-                    throw new UserInputError(`Not ${Object.values(schemaComposer.getETC('TextTransform').getFields()).join(', ')}`);
-            }
-        };
+        return baseTransform;
     }
 
     if (outputType instanceof NonNullComposer) {

@@ -12,7 +12,7 @@ export type Scalars = {
 
 export type User = {
   __typename?: 'User';
-  favouriteFoods?: Maybe<Array<Scalars['String']>>;
+  favouriteFoods: Array<Scalars['String']>;
   age: Scalars['Int'];
   firstName: Scalars['String'];
   familyName?: Maybe<Scalars['String']>;
@@ -119,7 +119,7 @@ export type ResolversParentTypes = {
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  favouriteFoods?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  favouriteFoods?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   age?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   familyName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

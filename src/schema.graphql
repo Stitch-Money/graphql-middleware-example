@@ -1,5 +1,5 @@
 type User {
-    favouriteFoods: [String!]
+    favouriteFoods: [String!]!
     age: Int!
     firstName: String!
     familyName: String
